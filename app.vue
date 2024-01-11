@@ -1,22 +1,38 @@
+<!-- <template>
+  <div class="flex">
+    <Sidebar />
+    <div class="container mx-auto mt-12">
+      <div class="grid grid-cols-1 gap-6 mb-6 lg:grid-cols-3">
+        <div class="w-full px-4 py-5 bg-white rounded-lg shadow">
+          <div class="text-sm font-medium text-gray-500 truncate">
+            تعداد هنرآموزان
+          </div>
+          <div class="mt-1 text-3xl font-semibold text-gray-900">12,00</div>
+        </div>
+        <div class="w-full px-4 py-5 bg-white rounded-lg shadow">
+          <div class="text-sm font-medium text-gray-500 truncate">
+            مجموع پرداخت ها
+          </div>
+          <div class="mt-1 text-3xl font-semibold text-gray-900">$ 450k</div>
+        </div>
+        <div class="w-full px-4 py-5 bg-white rounded-lg shadow">
+          <div class="text-sm font-medium text-gray-500 truncate">
+            تعداد کلاس های فعال
+          </div>
+          <div class="mt-1 text-3xl font-semibold text-gray-900">20k</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template> -->
+
 <template>
-  <div class="card flex justify-center">
-    KL
-    <Sidebar v-model:visible="visible" header="Sidebar">
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat.
-      </p>
-    </Sidebar>
-    <Button icon="pi pi-arrow-right" @click="visible = true" />
+  <div>
+    <NuxtLayout>
+      <div class="flex">
+        <Sidebar />
+        <NuxtPage />
+      </div>
+    </NuxtLayout>
   </div>
 </template>
-
-<script setup>
-import Sidebar from 'primevue/sidebar';
-
-import { ref } from "vue";
-
-const visible = ref(false);
-</script>
