@@ -15,7 +15,7 @@
                   v-for="header in headers"
                   :key="header"
                   scope="col"
-                  class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+                  class="px-4 py-3.5 text-sm font-normal text-center rtl:text-right text-gray-500 dark:text-gray-400"
                 >
                   {{ header }}
                 </th>
@@ -24,7 +24,7 @@
             <tbody
               class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900"
             >
-              <tr v-for="student in data" :key="student.id">
+              <tr v-for="student in props.students" :key="student.id">
                 <td
                   class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
                 >
@@ -73,6 +73,14 @@
                   class="px-4 py-4 flex justify-center items-center text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
                 >
                   {{ student.enrolledClassCount }}
+                </td>
+                <td class="px-4">
+                  <button
+                    class="flex justify-center items-center bg-red-600 hover:bg-red-700 text-white text-sm font-bold rounded w-24 h-7 disabled:bg-red-300"
+                    @click="emit('deleteStudent', student)"
+                  >
+                    حذف هنرجو
+                  </button>
                 </td>
               </tr>
             </tbody>
@@ -138,8 +146,9 @@
 </template>
 
 <script setup>
-const { data } = useFetch("http://localhost:3030/students");
-console.log(data.value);
+
+const emit = defineEmits(["deleteStudent"])
+const props = defineProps(["students"])
 
 const headers = ref([
   "تاریخ ثبت نام",
@@ -147,7 +156,7 @@ const headers = ref([
   "اطلاعات",
   "تاریخ تولد",
   "تعداد کلاس های ثبت نام کرده",
+  "عملیات",
 ]);
 
-const items = ref([]);
 </script>

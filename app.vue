@@ -31,9 +31,7 @@
     <NuxtLayout>
       <div class="flex">
         <Sidebar />
-        <UContainer>
-          <NuxtPage />
-        </UContainer>
+        <NuxtPage />
         <UNotifications />
       </div>
     </NuxtLayout>

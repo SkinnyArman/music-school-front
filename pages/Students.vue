@@ -56,7 +56,10 @@
       </div>
     </Transition>
 
-    <StudentsDataTable></StudentsDataTable>
+    <StudentsDataTable
+      :students="students"
+      @deleteStudent="deleteStudent"
+    ></StudentsDataTable>
   </div>
 </template>
 
@@ -103,10 +106,11 @@ div {
 
 <script setup>
 const { data } = useFetch("http://localhost:3030/branches");
+const { data: students, refresh } = useFetch("http://localhost:3030/students");
 
 const isAddStudentOpen = ref(false);
 const info = ref({});
-const toast = useToast()
+const toast = useToast();
 const NECESSARY_FIELDS = [
   "name",
   "surname",
@@ -123,8 +127,21 @@ const registerStudent = async () => {
     method: "POST",
     body: info,
   });
-  toast.add({ title: 'هنرآموز ثبت نام شد' })
+  refresh();
+  isAddStudentOpen.value = false
+  toast.add({ title: "هنرآموز ثبت نام شد" });
   info.value = {};
+};
+
+const deleteStudent = async (student) => {
+  const { data } = await useFetch(
+    `http://localhost:3030/students/${student._id}`,
+    {
+      method: "DELETE",
+    }
+  );
+  refresh();
+  toast.add({ title: "هنرآموز ثبت نام شد" });
 };
 
 const setBranch = (branch) => {
