@@ -57,8 +57,12 @@
     </Transition>
 
     <StudentsDataTable
-      :students="students"
+      v-if="students"
+      :students="students.students"
+      :current-page="students.currentPage"
+      :total-pages="students.totalPages"
       @deleteStudent="deleteStudent"
+      @paginate="paginateStudents"
     ></StudentsDataTable>
   </div>
 </template>
@@ -106,8 +110,18 @@ div {
 
 <script setup>
 const { data } = useFetch("http://localhost:3030/branches");
-const { data: students, refresh } = useFetch("http://localhost:3030/students");
 
+const currentPage = ref(1);
+
+const fetchUrl = computed(
+  () => `http://localhost:3030/students?page=${currentPage.value}`
+);
+const { data: students, refresh } = useFetch(fetchUrl, { server: false });
+
+const paginateStudents = (pageNumber) => {
+  currentPage.value = pageNumber;
+  refresh()
+};
 const isAddStudentOpen = ref(false);
 const info = ref({});
 const toast = useToast();
@@ -128,7 +142,7 @@ const registerStudent = async () => {
     body: info,
   });
   refresh();
-  isAddStudentOpen.value = false
+  isAddStudentOpen.value = false;
   toast.add({ title: "هنرآموز ثبت نام شد" });
   info.value = {};
 };
