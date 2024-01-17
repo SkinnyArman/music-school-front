@@ -1,7 +1,7 @@
 <template>
   <!-- component -->
   <div class="flex flex-col">
-    <div class="overflow-x-auto">
+    <div class="-my-2 overflow-x-auto sm:-mx-6">
       <div class="min-w-full py-2 align-middle">
         <div
           class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg"
@@ -15,7 +15,7 @@
                   v-for="header in headers"
                   :key="header"
                   scope="col"
-                  class="px-4 py-3.5 text-sm font-normal whitespace-nowrap text-center rtl:text-right text-gray-500 dark:text-gray-400"
+                  class="px-4 py-3.5 text-sm font-normal text-center rtl:text-right text-gray-500 dark:text-gray-400 whitespace-nowrap"
                 >
                   {{ header }}
                 </th>
@@ -24,11 +24,11 @@
             <tbody
               class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900"
             >
-              <tr v-for="student in props.students" :key="student.id">
+              <tr v-for="teacher in props.teachers" :key="teacher.id">
                 <td
                   class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
                 >
-                  {{ new Date(student.createdAt).toLocaleDateString("fa") }}
+                  {{ new Date(teacher.createdAt).toLocaleDateString("fa") }}
                 </td>
                 <td
                   class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap"
@@ -37,7 +37,7 @@
                     class="inline-flex items-center px-3 py-1 rounded-full gap-x-2 text-emerald-500 bg-emerald-100/60 dark:bg-gray-800"
                   >
                     <h2 class="text-sm font-normal">
-                      {{ student.branch.name }}
+                      {{ teacher.branch.name }}
                     </h2>
                   </div>
                 </td>
@@ -47,19 +47,19 @@
                   <div class="flex items-center gap-x-2">
                     <img
                       class="object-cover w-8 h-8 rounded-full"
-                      :src="student.imageURL"
+                      :src="teacher.imageURL"
                       alt=""
                     />
                     <div>
                       <h2
                         class="text-sm font-medium text-gray-800 dark:text-white"
                       >
-                        {{ student.name + " " + student.surname }}
+                        {{ teacher.name + " " + teacher.surname }}
                       </h2>
                       <p
                         class="text-xs font-normal text-gray-600 dark:text-gray-400"
                       >
-                        {{ student.email }}
+                        {{ teacher.email }}
                       </p>
                     </div>
                   </div>
@@ -67,19 +67,29 @@
                 <td
                   class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
                 >
-                  {{ new Date(student.birthdate).toLocaleDateString("fa") }}
+                  {{ new Date(teacher.birthdate).toLocaleDateString("fa") }}
                 </td>
                 <td
-                  class="px-4 py-4 flex justify-center items-center text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
+                  class="px-4 py-4 text-center text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
                 >
-                  {{ student.enrolledClassCount }}
+                  {{ teacher.numberOfActiveYears }}
+                </td>
+                <td
+                  class="px-4 py-4 text-center text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
+                >
+                  {{ teacher.numberOfTeachingYears }}
+                </td>
+                <td
+                  class="px-4 py-4 text-center text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
+                >
+                  {{ teacher.major }}
                 </td>
                 <td class="px-4">
                   <button
                     class="flex justify-center items-center bg-red-600 hover:bg-red-700 text-white text-sm font-bold rounded w-24 h-7 disabled:bg-red-300"
-                    @click="emit('deleteStudent', student)"
+                    @click="emit('deleteStudent', teacher)"
                   >
-                    حذف هنرجو
+                    حذف استاد
                   </button>
                 </td>
               </tr>
@@ -149,14 +159,16 @@
 
 <script setup>
 const emit = defineEmits(["deleteStudent", "paginate"]);
-const props = defineProps(["students", "currentPage", "totalPages"]);
+const props = defineProps(["teachers", "currentPage", "totalPages"]);
 
 const headers = ref([
   "تاریخ ثبت نام",
   "شعبه",
   "اطلاعات",
   "تاریخ تولد",
-  "تعداد کلاس های ثبت نام کرده",
+  "تعداد سال های فعالیت",
+  "تعداد سال های تدریس",
+  "رشته",
   "عملیات",
 ]);
 </script>

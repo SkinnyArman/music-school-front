@@ -4,7 +4,7 @@
       class="bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded mb-2"
       @click="isAddStudentOpen = true"
     >
-      ثبت نام کردن هنرآموز
+      ثبت نام کردن استاد
     </button>
     <Transition :duration="550" name="nested">
       <div
@@ -56,14 +56,14 @@
       </div>
     </Transition>
 
-    <StudentsDataTable
-      v-if="students"
-      :students="students.students"
-      :current-page="students.currentPage"
-      :total-pages="students.totalPages"
+    <TeachersDataTable
+      v-if="teachers"
+      :teachers="teachers.teachers"
+      :current-page="teachers.currentPage"
+      :total-pages="teachers.totalPages"
       @deleteStudent="deleteStudent"
       @paginate="paginateStudents"
-    ></StudentsDataTable>
+    ></TeachersDataTable>
   </div>
 </template>
 
@@ -100,10 +100,10 @@ div {
 .nested-leave-to .inner {
   transform: translateX(30px);
   /*
-  	Hack around a Chrome 96 bug in handling nested opacity transitions.
-    This is not needed in other browsers or Chrome 99+ where the bug
-    has been fixed.
-  */
+        Hack around a Chrome 96 bug in handling nested opacity transitions.
+      This is not needed in other browsers or Chrome 99+ where the bug
+      has been fixed.
+    */
   opacity: 0.001;
 }
 </style>
@@ -114,13 +114,13 @@ const { data } = useFetch("http://localhost:3030/branches");
 const currentPage = ref(1);
 
 const fetchUrl = computed(
-  () => `http://localhost:3030/students?page=${currentPage.value}`
+  () => `http://localhost:3030/teachers?page=${currentPage.value}`
 );
-const { data: students, refresh } = useFetch(fetchUrl);
+const { data: teachers, refresh } = useFetch(fetchUrl);
 
 const paginateStudents = (pageNumber) => {
   currentPage.value = pageNumber;
-  refresh()
+  refresh();
 };
 const isAddStudentOpen = ref(false);
 const info = ref({});
