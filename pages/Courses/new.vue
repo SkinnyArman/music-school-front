@@ -6,6 +6,7 @@
       <div class="w-1/2">
         <div>موضوع:</div>
         <DropDown
+          v-if="courses"
           :items="availableCourses"
           fieldToShow="name"
           @setItem="setTopic"
@@ -14,6 +15,7 @@
       <div class="w-1/2">
         <div>استاد کلاس:</div>
         <DropDown
+          v-if="teachers"
           :items="teachers.teachers"
           fieldToShow="name"
           @setItem="setTeacher"
@@ -21,7 +23,7 @@
       </div>
       <div class="w-1/2">
         <div>هزینه کلاس:</div>
-        <InputField v-model="info.tuition" type="number"/>
+        <InputField v-model="info.tuition" type="number" />
       </div>
       <div class="w-1/2">
         <div>سطح کلاس:</div>
@@ -70,8 +72,12 @@
 
 <script setup>
 const { data } = useFetch("https://music-school-mckx.onrender.com/branches");
-const { data: teachers } = useFetch("https://music-school-mckx.onrender.com/teachers");
-const { data: courses } = useFetch("https://music-school-mckx.onrender.com/categories");
+const { data: teachers } = useFetch(
+  "https://music-school-mckx.onrender.com/teachers"
+);
+const { data: courses } = useFetch(
+  "https://music-school-mckx.onrender.com/categories"
+);
 
 const availableCourses = computed(() =>
   courses.value.filter((course) => course.parentCategory)
@@ -108,18 +114,21 @@ const setTopic = (topic) => {
 const currentPage = ref(1);
 
 const fetchUrl = computed(
-  () => `https://music-school-mckx.onrender.com/students?page=${currentPage.value}`
+  () =>
+    `https://music-school-mckx.onrender.com/students?page=${currentPage.value}`
 );
 const { data: students, refresh } = useFetch(fetchUrl);
 
-
 //enrolling
-const enrollStudents = async() => {
-    const { data } = await useFetch("https://music-school-mckx.onrender.com/new-course", {
+const enrollStudents = async () => {
+  const { data } = await useFetch(
+    "https://music-school-mckx.onrender.com/new-course",
+    {
       method: "POST",
       body: info.value,
-    });
-    console.log('classs created!')
-    info.value = {};
+    }
+  );
+  console.log("classs created!");
+  info.value = {};
 };
 </script>

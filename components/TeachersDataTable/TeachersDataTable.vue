@@ -37,7 +37,7 @@
                     class="inline-flex items-center px-3 py-1 rounded-full gap-x-2 text-emerald-500 bg-emerald-100/60 dark:bg-gray-800"
                   >
                     <h2 class="text-sm font-normal">
-                      {{ teacher.branch.name }}
+                      branch
                     </h2>
                   </div>
                 </td>

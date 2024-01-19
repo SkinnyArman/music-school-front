@@ -1,12 +1,11 @@
 <template>
   <div class="my-5 mx-auto w-[1000px]">
-    <Nuxt-Link href="/courses/new">
       <button
         class="bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded mb-2"
+        @click="useRouter().push('/courses/new')"
       >
         ایجاد کلاس جدید
       </button>
-    </Nuxt-Link>
     <CoursesDataTable
       v-if="courses"
       :courses="courses.courses"

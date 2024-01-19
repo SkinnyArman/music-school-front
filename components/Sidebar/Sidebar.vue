@@ -102,6 +102,16 @@
               <span class="text-gray-100 ml-14"> شعبه ها </span>
             </NuxtLink>
           </li>
+          <li class="rounded-sm">
+            <NuxtLink
+              to="/majors"
+              class="flex items-center p-2 space-x-3 rounded-md"
+            >
+              <IconSchool color="white" />
+
+              <span class="text-gray-100 ml-14"> رشته ها </span>
+            </NuxtLink>
+          </li>
         </ul>
       </div>
     </div>
