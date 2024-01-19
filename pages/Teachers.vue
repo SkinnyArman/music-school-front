@@ -124,7 +124,6 @@ const paginateStudents = (pageNumber) => {
 };
 const isAddStudentOpen = ref(false);
 const info = ref({});
-const toast = useToast();
 const NECESSARY_FIELDS = [
   "name",
   "surname",
@@ -143,7 +142,7 @@ const registerStudent = async () => {
   });
   refresh();
   isAddStudentOpen.value = false;
-  toast.add({ title: "هنرآموز ثبت نام شد" });
+  // toast.add({ title: "هنرآموز ثبت نام شد" });
   info.value = {};
 };
 
@@ -155,7 +154,7 @@ const deleteStudent = async (student) => {
     }
   );
   refresh();
-  toast.add({ title: "هنرآموز ثبت نام شد" });
+  // toast.add({ title: "هنرآموز ثبت نام شد" });
 };
 
 const setBranch = (branch) => {

@@ -16,5 +16,5 @@ export default defineNuxtConfig({
       position: "top-0 bottom-auto",
     },
   },
-  modules: ["@nuxt/ui"],
+  modules: ["@vueuse/nuxt"],
 });

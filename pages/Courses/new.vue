@@ -5,15 +5,23 @@
     >
       <div class="w-1/2">
         <div>موضوع:</div>
-        <InputField />
+        <DropDown
+          :items="availableCourses"
+          fieldToShow="name"
+          @setItem="setTopic"
+        />
       </div>
       <div class="w-1/2">
         <div>استاد کلاس:</div>
-        <DropDown :items="teachers.teachers" fieldToShow="name" @setItem="setTeacher" />
+        <DropDown
+          :items="teachers.teachers"
+          fieldToShow="name"
+          @setItem="setTeacher"
+        />
       </div>
       <div class="w-1/2">
         <div>هزینه کلاس:</div>
-        <InputField />
+        <InputField v-model="info.tuition" type="number"/>
       </div>
       <div class="w-1/2">
         <div>سطح کلاس:</div>
@@ -25,6 +33,7 @@
           type="date"
           class="border-2 border-gray-300 bg-white text-gray-700 rounded-md py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
           required
+          v-model="info.startDate"
         />
       </div>
       <div class="w-1/2">
@@ -33,26 +42,29 @@
           type="date"
           class="border-2 border-gray-300 bg-white text-gray-700 rounded-md py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
           required
+          v-model="info.endDate"
         />
       </div>
-      <div class="flex justify-between w-full">
-        <button
-          class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded mb-2 mr-auto disabled:bg-indigo-300 disabled:cursor-not-allowed"
-        >
-          ایجاد کلاس
-        </button>
-      </div>
     </div>
-    
+
     <h3 class="text-lg">انتخاب هنرآموزان کلاس</h3>
     <simple-students-data-table
       v-if="students"
       :students="students.students"
       :current-page="students.currentPage"
       :total-pages="students.totalPages"
+      v-model="info.students"
       @deleteStudent="deleteStudent"
       @paginate="paginateStudents"
     ></simple-students-data-table>
+    <div class="flex justify-between w-full">
+      <button
+        class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded mb-2 mr-auto disabled:bg-indigo-300 disabled:cursor-not-allowed"
+        @click="enrollStudents"
+      >
+        ایجاد کلاس
+      </button>
+    </div>
   </div>
 </template>
 
@@ -61,9 +73,13 @@ const { data } = useFetch("http://localhost:3030/branches");
 const { data: teachers } = useFetch("http://localhost:3030/teachers");
 const { data: courses } = useFetch("http://localhost:3030/categories");
 
-console.log(courses)
+const availableCourses = computed(() =>
+  courses.value.filter((course) => course.parentCategory)
+);
 
-const info = ref({});
+const info = ref({
+  students: [],
+});
 const level = ref([
   {
     name: "مبتدی",
@@ -79,11 +95,15 @@ const level = ref([
   },
 ]);
 const setLevel = (level) => {
-  info.level = level.value;
+  info.value.level = level.value;
 };
 const setTeacher = (teacher) => {
-  info.teacher = teacher
-}
+  info.value.teacher = teacher._id;
+};
+const setTopic = (topic) => {
+  console.log(topic._id);
+  info.value.topic = topic._id;
+};
 
 const currentPage = ref(1);
 
@@ -91,4 +111,16 @@ const fetchUrl = computed(
   () => `http://localhost:3030/students?page=${currentPage.value}`
 );
 const { data: students, refresh } = useFetch(fetchUrl);
+
+console.log(students.value)
+
+//enrolling
+const enrollStudents = async() => {
+    const { data } = await useFetch("http://localhost:3030/new-course", {
+      method: "POST",
+      body: info.value,
+    });
+    console.log('classs created!')
+    info.value = {};
+};
 </script>

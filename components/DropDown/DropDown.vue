@@ -1,5 +1,5 @@
 <template>
-  <div class="relative inline-block text-left">
+  <div ref="target" class="relative inline-block text-left">
     <div>
       <button
         type="button"
@@ -53,11 +53,17 @@
 </template>
 
 <script setup>
+import { onClickOutside } from "@vueuse/core";
+
 const showDropdown = ref(false);
 const selectedItem = ref(null);
 const toggleDropdown = () => {
   showDropdown.value = !showDropdown.value;
 };
+
+const target = ref(null);
+onClickOutside(target, (event) => (showDropdown.value = false));
+
 const props = defineProps(["items", "fieldToShow"]);
 const emit = defineEmits(["setItem"]);
 

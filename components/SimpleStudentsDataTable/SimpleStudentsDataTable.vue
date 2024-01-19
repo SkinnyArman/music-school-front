@@ -26,7 +26,7 @@
             >
               <tr v-for="student in props.students" :key="student.id">
                 <td class="pr-5">
-                  <input type="checkbox" />
+                  <input type="checkbox" :value="student._id" v-model="model" />
                 </td>
                 <td
                   class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap"
@@ -83,4 +83,5 @@ const emit = defineEmits(["deleteStudent", "paginate"]);
 const props = defineProps(["students", "currentPage", "totalPages"]);
 
 const headers = ref([" ", "شعبه", "اطلاعات", "تعداد کلاس های ثبت نام کرده"]);
+const model = defineModel();
 </script>
