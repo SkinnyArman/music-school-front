@@ -136,7 +136,7 @@ const isAllDateEntered = computed(() =>
   NECESSARY_FIELDS.every((field) => info.value[field])
 );
 const registerStudent = async () => {
-  const { data } = await useFetch("https://music-school-mckx.onrender.com/students", {
+  const { data } = await useFetch("https://music-school-mckx.onrender.com/teachers", {
     method: "POST",
     body: info,
   });
@@ -148,7 +148,7 @@ const registerStudent = async () => {
 
 const deleteStudent = async (student) => {
   const { data } = await useFetch(
-    `https://music-school-mckx.onrender.com/students/${student._id}`,
+    `https://music-school-mckx.onrender.com/teachers/${student._id}`,
     {
       method: "DELETE",
     }
@@ -158,6 +158,6 @@ const deleteStudent = async (student) => {
 };
 
 const setBranch = (branch) => {
-  info.value.branchNumber = branch.branchNumber;
+  info.value.branch = branch._id;
 };
 </script>

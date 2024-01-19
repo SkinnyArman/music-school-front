@@ -130,7 +130,7 @@ const NECESSARY_FIELDS = [
   "surname",
   "birthdate",
   "birthplace",
-  "branchNumber",
+  "branch",
   "email",
 ];
 const isAllDateEntered = computed(() =>
@@ -157,6 +157,6 @@ const deleteStudent = async (student) => {
 };
 
 const setBranch = (branch) => {
-  info.value.branchNumber = branch.branchNumber;
+  info.value.branch = branch._id;
 };
 </script>

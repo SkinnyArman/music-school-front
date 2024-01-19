@@ -31,7 +31,7 @@
               :value="searchResult._id"
               v-model="info.studentId"
             />
-            آرمان امینی
+            {{ searchResult.name + ' ' + searchResult.surname }}
           </div>
         </div>
         <div class="flex justify-between w-full">
@@ -46,14 +46,13 @@
       </div>
     </Transition>
 
-    <StudentsDataTable
-      v-if="students"
-      :students="students.students"
-      :current-page="students.currentPage"
-      :total-pages="students.totalPages"
-      @deleteStudent="deleteStudent"
-      @paginate="paginateStudents"
-    ></StudentsDataTable>
+    <PaymentsDataTable
+      v-if="data"
+      :transactions="data.transactions"
+      :current-page="data.currentPage"
+      :total-pages="data.totalPages"
+      @paginate="paginate"
+    ></PaymentsDataTable>
   </div>
 </template>
 
@@ -62,15 +61,15 @@ const info = ref({});
 const searchResults = ref([]);
 const search = ref("");
 
-const { data } = useFetch("https://music-school-mckx.onrender.com/branches");
-
 const currentPage = ref(1);
 
 const fetchUrl = computed(
   () =>
-    `https://music-school-mckx.onrender.com/students?page=${currentPage.value}`
+    `https://music-school-mckx.onrender.com/transactions?page=${currentPage.value}`
 );
-const { data: students, refresh } = useFetch(fetchUrl);
+const { data, refresh } = useFetch(fetchUrl);
+
+console.log(data.value);
 
 const paginateStudents = (pageNumber) => {
   currentPage.value = pageNumber;

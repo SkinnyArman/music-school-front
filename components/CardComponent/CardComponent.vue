@@ -12,9 +12,9 @@
           تعداد اساتید: {{ props.branch.numberOfTeachers }}
         </p>
         <p class="text-gray-600 w-1/2">
-         تعداد کلاس ها: {{ props.branch.branchNumber }}
+         تعداد کلاس ها: {{ props.branch.numberOfCourses }}
         </p>
-        <p class="text-gray-600 w-1/2">پرداختی های شعبه: {{ 232 }}</p>
+        <p class="text-gray-600 w-1/2">پرداختی های شعبه: {{ props.branch.totalPayments + ' تومان' }}</p>
       </div>
     </div>
     <button
