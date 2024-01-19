@@ -53,31 +53,53 @@
             </NuxtLink>
           </li>
           <li class="rounded-sm">
-            <NuxtLink to="/courses" class="flex items-center p-2 space-x-3 rounded-md">
+            <NuxtLink
+              to="/courses"
+              class="flex items-center p-2 space-x-3 rounded-md"
+            >
               <IconCertificate color="white" />
 
               <span class="text-gray-100">کلاس ها</span>
             </NuxtLink>
           </li>
           <li class="rounded-sm">
-            <NuxtLink to="/payments" class="flex items-center p-2 space-x-3 rounded-md">
+            <NuxtLink
+              to="/payments"
+              class="flex items-center p-2 space-x-3 rounded-md"
+            >
               <IconCash color="white" />
 
               <span class="text-gray-100"> پرداخت ها </span>
             </NuxtLink>
           </li>
           <li class="rounded-sm">
-            <NuxtLink to="/teachers" class="flex items-center p-2 space-x-3 rounded-md">
+            <NuxtLink
+              to="/teachers"
+              class="flex items-center p-2 space-x-3 rounded-md"
+            >
               <IconUser color="white" />
 
               <span class="text-gray-100"> اساتید </span>
             </NuxtLink>
           </li>
           <li class="rounded-sm">
-            <NuxtLink to="/students" class="flex items-center p-2 space-x-3 rounded-md">
+            <NuxtLink
+              to="/students"
+              class="flex items-center p-2 space-x-3 rounded-md"
+            >
               <IconSchool color="white" />
 
               <span class="text-gray-100 ml-14"> هنرآموزان </span>
+            </NuxtLink>
+          </li>
+          <li class="rounded-sm">
+            <NuxtLink
+              to="/branches"
+              class="flex items-center p-2 space-x-3 rounded-md"
+            >
+              <IconSchool color="white" />
+
+              <span class="text-gray-100 ml-14"> شعبه ها </span>
             </NuxtLink>
           </li>
         </ul>

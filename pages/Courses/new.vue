@@ -112,7 +112,6 @@ const fetchUrl = computed(
 );
 const { data: students, refresh } = useFetch(fetchUrl);
 
-console.log(students.value)
 
 //enrolling
 const enrollStudents = async() => {
