@@ -4,23 +4,23 @@
       class="flex flex-wrap gap-y-4 rounded border border-gray-200 dark:border-gray-700 p-4 mb-4"
     >
       <div class="w-1/2">
-        <div>نام:</div>
+        <div>موضوع:</div>
         <InputField />
       </div>
       <div class="w-1/2">
-        <div>نام خانوادگی:</div>
+        <div>استاد کلاس:</div>
+        <DropDown :items="teachers.teachers" fieldToShow="name" @setItem="setTeacher" />
+      </div>
+      <div class="w-1/2">
+        <div>هزینه کلاس:</div>
         <InputField />
       </div>
       <div class="w-1/2">
-        <div>ایمیل:</div>
-        <InputField />
+        <div>سطح کلاس:</div>
+        <DropDown :items="level" fieldToShow="name" @setItem="setLevel" />
       </div>
       <div class="w-1/2">
-        <div>شعبه:</div>
-        <DropDown :items="data" fieldToShow="name" @setItem="setBranch" />
-      </div>
-      <div class="w-1/2">
-        <div>تاریخ تولد:</div>
+        <div>تاریخ شروع کلاس:</div>
         <input
           type="date"
           class="border-2 border-gray-300 bg-white text-gray-700 rounded-md py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
@@ -28,12 +28,12 @@
         />
       </div>
       <div class="w-1/2">
-        <div>محل تولد:</div>
-        <InputField />
-      </div>
-      <div class="w-full">
-        <div>لینک عکس:</div>
-        <InputField />
+        <div>تاریخ پایان کلاس:</div>
+        <input
+          type="date"
+          class="border-2 border-gray-300 bg-white text-gray-700 rounded-md py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+          required
+        />
       </div>
       <div class="flex justify-between w-full">
         <button
@@ -43,6 +43,8 @@
         </button>
       </div>
     </div>
+    
+    <h3 class="text-lg">انتخاب هنرآموزان کلاس</h3>
     <simple-students-data-table
       v-if="students"
       :students="students.students"
@@ -56,6 +58,32 @@
 
 <script setup>
 const { data } = useFetch("http://localhost:3030/branches");
+const { data: teachers } = useFetch("http://localhost:3030/teachers");
+const { data: courses } = useFetch("http://localhost:3030/categories");
+
+console.log(courses)
+
+const info = ref({});
+const level = ref([
+  {
+    name: "مبتدی",
+    value: "Beginner",
+  },
+  {
+    name: "متوسط",
+    value: "Intermediate",
+  },
+  {
+    name: "پیشرفته",
+    value: "Advanced",
+  },
+]);
+const setLevel = (level) => {
+  info.level = level.value;
+};
+const setTeacher = (teacher) => {
+  info.teacher = teacher
+}
 
 const currentPage = ref(1);
 
