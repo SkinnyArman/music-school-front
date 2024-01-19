@@ -69,9 +69,9 @@
 </template>
 
 <script setup>
-const { data } = useFetch("https://music-school-mckx.onrender.com//branches");
-const { data: teachers } = useFetch("https://music-school-mckx.onrender.com//teachers");
-const { data: courses } = useFetch("https://music-school-mckx.onrender.com//categories");
+const { data } = useFetch("https://music-school-mckx.onrender.com/branches");
+const { data: teachers } = useFetch("https://music-school-mckx.onrender.com/teachers");
+const { data: courses } = useFetch("https://music-school-mckx.onrender.com/categories");
 
 const availableCourses = computed(() =>
   courses.value.filter((course) => course.parentCategory)
@@ -108,7 +108,7 @@ const setTopic = (topic) => {
 const currentPage = ref(1);
 
 const fetchUrl = computed(
-  () => `https://music-school-mckx.onrender.com//students?page=${currentPage.value}`
+  () => `https://music-school-mckx.onrender.com/students?page=${currentPage.value}`
 );
 const { data: students, refresh } = useFetch(fetchUrl);
 
@@ -116,7 +116,7 @@ console.log(students.value)
 
 //enrolling
 const enrollStudents = async() => {
-    const { data } = await useFetch("https://music-school-mckx.onrender.com//new-course", {
+    const { data } = await useFetch("https://music-school-mckx.onrender.com/new-course", {
       method: "POST",
       body: info.value,
     });

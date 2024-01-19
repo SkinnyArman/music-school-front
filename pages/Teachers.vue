@@ -109,12 +109,12 @@ div {
 </style>
 
 <script setup>
-const { data } = useFetch("https://music-school-mckx.onrender.com//branches");
+const { data } = useFetch("https://music-school-mckx.onrender.com/branches");
 
 const currentPage = ref(1);
 
 const fetchUrl = computed(
-  () => `https://music-school-mckx.onrender.com//teachers?page=${currentPage.value}`
+  () => `https://music-school-mckx.onrender.com/teachers?page=${currentPage.value}`
 );
 const { data: teachers, refresh } = useFetch(fetchUrl);
 
@@ -136,7 +136,7 @@ const isAllDateEntered = computed(() =>
   NECESSARY_FIELDS.every((field) => info.value[field])
 );
 const registerStudent = async () => {
-  const { data } = await useFetch("https://music-school-mckx.onrender.com//students", {
+  const { data } = await useFetch("https://music-school-mckx.onrender.com/students", {
     method: "POST",
     body: info,
   });
@@ -148,7 +148,7 @@ const registerStudent = async () => {
 
 const deleteStudent = async (student) => {
   const { data } = await useFetch(
-    `https://music-school-mckx.onrender.com//students/${student._id}`,
+    `https://music-school-mckx.onrender.com/students/${student._id}`,
     {
       method: "DELETE",
     }
