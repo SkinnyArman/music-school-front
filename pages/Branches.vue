@@ -31,7 +31,7 @@
       :key="index"
       :branch="branch"
       :loading="isDeletingBranch[index]"
-      @deleteBranch="deleteBranch(index)"
+      @deleteBranch="deleteBranch($event, index)"
     ></CardComponent>
   </div>
 </template>
