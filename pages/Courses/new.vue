@@ -22,12 +22,16 @@
         />
       </div>
       <div class="w-1/2">
-        <div>هزینه کلاس:</div>
-        <InputField v-model="info.tuition" type="number" />
-      </div>
-      <div class="w-1/2">
         <div>سطح کلاس:</div>
         <DropDown :items="level" fieldToShow="name" @setItem="setLevel" />
+      </div>
+      <div class="w-1/2">
+        <div>شعبه کلاس:</div>
+        <DropDown :items="branches" fieldToShow="name" @setItem="setBranch" />
+      </div>
+      <div class="w-1/2">
+        <div>شهریه کلاس:</div>
+        <InputField v-model="info.tuition" type="number" />
       </div>
       <div class="w-1/2">
         <div>تاریخ شروع کلاس:</div>
@@ -71,7 +75,7 @@
 </template>
 
 <script setup>
-const { data } = useFetch("https://music-school-mckx.onrender.com/branches");
+const { data: branches } = useFetch("https://music-school-mckx.onrender.com/branches");
 const { data: teachers } = useFetch(
   "https://music-school-mckx.onrender.com/teachers"
 );
@@ -110,6 +114,10 @@ const setTopic = (topic) => {
   console.log(topic._id);
   info.value.topic = topic._id;
 };
+
+const setBranch = (branch) => {
+  info.value.branch = branch._id
+}
 
 const currentPage = ref(1);
 
