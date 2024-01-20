@@ -1,19 +1,25 @@
 <template>
-  <div class="my-5 mx-auto w-[1000px]">
+  <div
+    class="my-5 mx-auto w-[1000px]"
+    :class="{ 'flex items-center justify-center': pending }"
+  >
+    <LoadingSpinner v-if="pending"></LoadingSpinner>
+    <div v-else>
       <button
         class="bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded mb-2"
         @click="useRouter().push('/courses/new')"
       >
         ایجاد کلاس جدید
       </button>
-    <CoursesDataTable
-      v-if="courses"
-      :courses="courses.courses"
-      :current-page="courses.currentPage"
-      :total-pages="courses.totalPages"
-      @deleteCourse="deleteCourse"
-      @paginate="paginate"
-    ></CoursesDataTable>
+      <CoursesDataTable
+        v-if="courses"
+        :courses="courses.courses"
+        :current-page="courses.currentPage"
+        :total-pages="courses.totalPages"
+        @deleteCourse="deleteCourse"
+        @paginate="paginate"
+      ></CoursesDataTable>
+    </div>
   </div>
 </template>
 
@@ -24,9 +30,7 @@ const fetchUrl = computed(
   () =>
     `https://music-school-mckx.onrender.com/courses?page=${currentPage.value}`
 );
-const { data: courses, refresh } = useFetch(fetchUrl);
-
-console.log(courses.value);
+const { data: courses, refresh, pending } = useFetch(fetchUrl);
 
 const paginate = (pageNumber) => {
   currentPage.value = pageNumber;

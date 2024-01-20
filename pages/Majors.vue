@@ -1,6 +1,10 @@
 <template>
-  <div class="my-5 mx-auto w-[1000px]">
-    <div class="flex gap-x-1 flex-wrap">
+  <div
+    class="my-5 mx-auto w-[1000px]"
+    :class="{ 'flex items-center justify-center': pending }"
+  >
+    <LoadingSpinner v-if="pending"></LoadingSpinner>
+    <div v-else class="flex gap-x-1 flex-wrap">
       <MajorCard
         class="min-w-[48%]"
         v-for="(category, index) in mainMajors"
@@ -15,7 +19,7 @@
 </template>
 
 <script setup>
-const { data, refresh } = useFetch(
+const { data, refresh, pending } = useFetch(
   "https://music-school-mckx.onrender.com/categories"
 );
 

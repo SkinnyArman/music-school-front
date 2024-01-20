@@ -1,69 +1,75 @@
 <template>
-  <div class="my-5 mx-auto w-[1000px]">
-    <button
-      class="bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded mb-2"
-      @click="isAddStudentOpen = true"
-    >
-      ثبت نام کردن هنرآموز
-    </button>
-    <Transition :duration="550" name="nested">
-      <div
-        v-if="isAddStudentOpen"
-        class="flex flex-wrap gap-y-4 rounded border border-gray-200 dark:border-gray-700 p-4 mb-4"
+  <div
+    class="my-5 mx-auto w-[1000px]"
+    :class="{ 'flex items-center justify-center': pending || pending2 }"
+  >
+    <LoadingSpinner v-if="pending || pending2"></LoadingSpinner>
+    <div v-else>
+      <button
+        class="bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded mb-2"
+        @click="isAddStudentOpen = true"
       >
-        <div class="w-1/2">
-          <div>نام:</div>
-          <InputField v-model="info.name" />
+        ثبت نام کردن هنرآموز
+      </button>
+      <Transition :duration="550" name="nested">
+        <div
+          v-if="isAddStudentOpen"
+          class="flex flex-wrap gap-y-4 rounded border border-gray-200 dark:border-gray-700 p-4 mb-4"
+        >
+          <div class="w-1/2">
+            <div>نام:</div>
+            <InputField v-model="info.name" />
+          </div>
+          <div class="w-1/2">
+            <div>نام خانوادگی:</div>
+            <InputField v-model="info.surname" />
+          </div>
+          <div class="w-1/2">
+            <div>ایمیل:</div>
+            <InputField v-model="info.email" />
+          </div>
+          <div class="w-1/2">
+            <div>شعبه:</div>
+            <DropDown :items="data" fieldToShow="name" @setItem="setBranch" />
+          </div>
+          <div class="w-1/2">
+            <div>تاریخ تولد:</div>
+            <input
+              type="date"
+              class="border-2 border-gray-300 bg-white text-gray-700 rounded-md py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
+              required
+              v-model="info.birthdate"
+            />
+          </div>
+          <div class="w-1/2">
+            <div>محل تولد:</div>
+            <InputField v-model="info.birthplace" />
+          </div>
+          <div class="w-full">
+            <div>لینک عکس:</div>
+            <InputField />
+          </div>
+          <div class="flex justify-between w-full">
+            <button
+              class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded mb-2 mr-auto disabled:bg-indigo-300 disabled:cursor-not-allowed"
+              :disabled="!isAllDateEntered"
+              @click="registerStudent"
+            >
+              ثبت نام
+            </button>
+          </div>
         </div>
-        <div class="w-1/2">
-          <div>نام خانوادگی:</div>
-          <InputField v-model="info.surname" />
-        </div>
-        <div class="w-1/2">
-          <div>ایمیل:</div>
-          <InputField v-model="info.email" />
-        </div>
-        <div class="w-1/2">
-          <div>شعبه:</div>
-          <DropDown :items="data" fieldToShow="name" @setItem="setBranch" />
-        </div>
-        <div class="w-1/2">
-          <div>تاریخ تولد:</div>
-          <input
-            type="date"
-            class="border-2 border-gray-300 bg-white text-gray-700 rounded-md py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-blue-500"
-            required
-            v-model="info.birthdate"
-          />
-        </div>
-        <div class="w-1/2">
-          <div>محل تولد:</div>
-          <InputField v-model="info.birthplace" />
-        </div>
-        <div class="w-full">
-          <div>لینک عکس:</div>
-          <InputField />
-        </div>
-        <div class="flex justify-between w-full">
-          <button
-            class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded mb-2 mr-auto disabled:bg-indigo-300 disabled:cursor-not-allowed"
-            :disabled="!isAllDateEntered"
-            @click="registerStudent"
-          >
-            ثبت نام
-          </button>
-        </div>
-      </div>
-    </Transition>
+      </Transition>
 
-    <StudentsDataTable
-      v-if="students"
-      :students="students.students"
-      :current-page="students.currentPage"
-      :total-pages="students.totalPages"
-      @deleteStudent="deleteStudent"
-      @paginate="paginateStudents"
-    ></StudentsDataTable>
+      <StudentsDataTable
+        v-if="students"
+        :students="students.students"
+        :current-page="students.currentPage"
+        :total-pages="students.totalPages"
+        @deleteStudent="deleteStudent"
+        @paginate="paginateStudents"
+      ></StudentsDataTable>
+    </div>
   </div>
 </template>
 
@@ -109,19 +115,21 @@ div {
 </style>
 
 <script setup>
-const { data } = useFetch("https://music-school-mckx.onrender.com/branches");
+const { data, pending } = useFetch(
+  "https://music-school-mckx.onrender.com/branches"
+);
 
 const currentPage = ref(1);
 
 const fetchUrl = computed(
-  () => `https://music-school-mckx.onrender.com/students?page=${currentPage.value}`
+  () =>
+    `https://music-school-mckx.onrender.com/students?page=${currentPage.value}`
 );
-const { data: students, refresh } = useFetch(fetchUrl);
-
+const { data: students, refresh, pending: pending2 } = await useFetch(fetchUrl);
 
 const paginateStudents = (pageNumber) => {
   currentPage.value = pageNumber;
-  refresh()
+  refresh();
 };
 const isAddStudentOpen = ref(false);
 const info = ref({});
@@ -137,10 +145,13 @@ const isAllDateEntered = computed(() =>
   NECESSARY_FIELDS.every((field) => info.value[field])
 );
 const registerStudent = async () => {
-  const { data } = await useFetch("https://music-school-mckx.onrender.com/students", {
-    method: "POST",
-    body: info,
-  });
+  const { data } = await useFetch(
+    "https://music-school-mckx.onrender.com/students",
+    {
+      method: "POST",
+      body: info,
+    }
+  );
   refresh();
   isAddStudentOpen.value = false;
   info.value = {};

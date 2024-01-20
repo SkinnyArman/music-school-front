@@ -1,58 +1,64 @@
 <template>
-  <div class="my-5 mx-auto w-[1000px]">
-    <button
-      class="bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded mb-2"
-      @click="isAddStudentOpen = true"
-    >
-      ثبت پرداخت جدید
-    </button>
-    <Transition :duration="550" name="nested">
-      <div
-        v-if="isAddStudentOpen"
-        class="flex flex-wrap gap-y-4 rounded border border-gray-200 dark:border-gray-700 p-4 mb-4"
+  <div
+    class="my-5 mx-auto w-[1000px]"
+    :class="{ 'flex items-center justify-center': pending }"
+  >
+    <LoadingSpinner v-if="pending"></LoadingSpinner>
+    <div v-else>
+      <button
+        class="bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded mb-2"
+        @click="isAddStudentOpen = true"
       >
-        <div class="w-1/2">
-          <div>پرداخت کننده:</div>
-          <InputField v-model="search" placeholder="سرچ با نام خانوادگی" />
-        </div>
-        <div class="w-1/2">
-          <div>مقدار (تومان):</div>
-          <InputField v-model="info.amount" type="number" />
-        </div>
-        <div>
-          <div
-            v-for="searchResult in searchResults"
-            :key="searchResult._id"
-            class="bg-gray-400 rounded-3xl text-white flex items-center p-4"
-          >
-            <input
-              type="radio"
-              class="ml-2"
-              :value="searchResult._id"
-              v-model="info.studentId"
-            />
-            {{ searchResult.name + ' ' + searchResult.surname }}
+        ثبت پرداخت جدید
+      </button>
+      <Transition :duration="550" name="nested">
+        <div
+          v-if="isAddStudentOpen"
+          class="flex flex-wrap gap-y-4 rounded border border-gray-200 dark:border-gray-700 p-4 mb-4"
+        >
+          <div class="w-1/2">
+            <div>پرداخت کننده:</div>
+            <InputField v-model="search" placeholder="سرچ با نام خانوادگی" />
+          </div>
+          <div class="w-1/2">
+            <div>مقدار (تومان):</div>
+            <InputField v-model="info.amount" type="number" />
+          </div>
+          <div>
+            <div
+              v-for="searchResult in searchResults"
+              :key="searchResult._id"
+              class="bg-gray-400 rounded-3xl text-white flex items-center p-4"
+            >
+              <input
+                type="radio"
+                class="ml-2"
+                :value="searchResult._id"
+                v-model="info.studentId"
+              />
+              {{ searchResult.name + " " + searchResult.surname }}
+            </div>
+          </div>
+          <div class="flex justify-between w-full">
+            <button
+              class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded mb-2 mr-auto disabled:bg-indigo-300 disabled:cursor-not-allowed"
+              :disabled="!isAllDateEntered"
+              @click="submitTransaction"
+            >
+              ثبت
+            </button>
           </div>
         </div>
-        <div class="flex justify-between w-full">
-          <button
-            class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded mb-2 mr-auto disabled:bg-indigo-300 disabled:cursor-not-allowed"
-            :disabled="!isAllDateEntered"
-            @click="submitTransaction"
-          >
-            ثبت
-          </button>
-        </div>
-      </div>
-    </Transition>
+      </Transition>
 
-    <PaymentsDataTable
-      v-if="data"
-      :transactions="data.transactions"
-      :current-page="data.currentPage"
-      :total-pages="data.totalPages"
-      @paginate="paginate"
-    ></PaymentsDataTable>
+      <PaymentsDataTable
+        v-if="data"
+        :transactions="data.transactions"
+        :current-page="data.currentPage"
+        :total-pages="data.totalPages"
+        @paginate="paginate"
+      ></PaymentsDataTable>
+    </div>
   </div>
 </template>
 
@@ -67,7 +73,7 @@ const fetchUrl = computed(
   () =>
     `https://music-school-mckx.onrender.com/transactions?page=${currentPage.value}`
 );
-const { data, refresh } = useFetch(fetchUrl);
+const { data, refresh, pending } = useFetch(fetchUrl);
 
 console.log(data.value);
 
