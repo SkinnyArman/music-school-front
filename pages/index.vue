@@ -1,5 +1,5 @@
 <template>
-  <div class="flex">
+  <!-- <div class="flex">
     <div class="container mx-auto mt-12">
       <div class="grid grid-cols-1 gap-6 mb-6 lg:grid-cols-3">
         <div class="w-full px-4 py-5 bg-white rounded-lg shadow">
@@ -22,5 +22,6 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
+  <div></div>
 </template>
