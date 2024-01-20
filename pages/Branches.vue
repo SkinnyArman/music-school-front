@@ -30,12 +30,15 @@
       v-for="(branch, index) in data"
       :key="index"
       :branch="branch"
+      :loading="isDeletingBranch"
       @deleteBranch="deleteBranch"
     ></CardComponent>
   </div>
 </template>
 
 <script setup>
+const isDeletingBranch = ref(false);
+
 const { data, refresh } = useFetch(
   "https://music-school-mckx.onrender.com/branches"
 );
@@ -56,12 +59,15 @@ const registerBranch = async () => {
 };
 
 const deleteBranch = async (branch) => {
+  isDeletingBranch.value = true;
   const { data } = await useFetch(
     `https://music-school-mckx.onrender.com/branches/${branch._id}`,
     {
       method: "DELETE",
     }
   );
+  isDeletingBranch.value = false;
+
   refresh();
 };
 </script>
