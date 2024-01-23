@@ -45,12 +45,12 @@
                 >
                   <div class="flex items-center gap-x-2">
                     <img
-                      v-if="course.teacher.imageURL"
+                      v-if="course.teacher && course.teacher.imageURL"
                       class="object-cover w-8 h-8 rounded-full"
                       :src="course.teacher.imageURL"
                       alt=""
                     />
-                    <div>
+                    <div v-if="course.teacher">
                       <h2
                         class="text-sm font-medium text-gray-800 dark:text-white"
                       >
@@ -59,7 +59,8 @@
                       <p
                         class="text-xs font-normal text-gray-600 dark:text-gray-400"
                       >
-                        {{ course.teacher.major }}
+                        تعداد سال های فعالیت:
+                        {{ course.teacher.numberOfActiveYears }} سال
                       </p>
                     </div>
                   </div>
@@ -67,7 +68,7 @@
                 <td
                   class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap text-center"
                 >
-                  {{ course.tuition }} هزار تومان
+                  {{ course.tuition }} تومان
                 </td>
                 <td
                   class="px-4 py-4 text-center text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"

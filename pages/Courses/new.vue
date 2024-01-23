@@ -67,6 +67,7 @@
       <button
         class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded mb-2 mr-auto disabled:bg-indigo-300 disabled:cursor-not-allowed"
         @click="enrollStudents"
+        :disabled="!isAllDateEntered"
       >
         ایجاد کلاس
       </button>
@@ -87,6 +88,19 @@ const availableCourses = computed(() =>
   courses.value.filter((course) => course.parentCategory)
 );
 
+const NECESSARY_FIELDS = [
+  "teacher",
+  "level",
+  "endDate",
+  "startDate",
+  "branch",
+  "students",
+  "topic",
+  "tuition"
+];
+const isAllDateEntered = computed(() =>
+  NECESSARY_FIELDS.every((field) => info.value[field])
+);
 const info = ref({
   students: [],
 });
@@ -136,6 +150,7 @@ const enrollStudents = async () => {
       body: info.value,
     }
   );
+  useRouter().push('/courses')
   console.log("classs created!");
   info.value = {};
 };
