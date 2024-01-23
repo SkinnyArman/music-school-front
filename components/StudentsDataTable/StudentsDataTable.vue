@@ -75,6 +75,7 @@
                 >
                   {{ student.enrolledClassCount }}
                 </td>
+                <td class="text-center whitespace-nowrap text-sm text-gray-500">{{ student.credit }} تومان</td>
                 <td class="px-4">
                   <DeleteButton @click="emit('deleteStudent', student)">
                     حذف هنرجو
@@ -155,6 +156,7 @@ const headers = ref([
   "اطلاعات",
   "تاریخ تولد",
   "تعداد کلاس های ثبت نام کرده",
+  "اعتبار",
   "عملیات",
 ]);
 </script>
