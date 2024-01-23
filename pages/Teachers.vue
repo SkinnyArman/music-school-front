@@ -25,6 +25,23 @@
             <InputField v-model="info.surname" />
           </div>
           <div class="w-1/2">
+            <div>تعداد سال های تدریس</div>
+            <InputField v-model="info.numberOfTeachingYears" type="number" />
+          </div>
+          <div class="w-1/2">
+            <div>تعداد سال های فعالیت</div>
+            <InputField v-model="info.numberOfActiveYears" type="number" />
+          </div>
+          <div class="w-1/2">
+            <div>رشته:</div>
+            <DropDown
+              v-if="courses"
+              :items="availableCourses"
+              fieldToShow="name"
+              @setItem="setTopic"
+            />
+          </div>
+          <div class="w-1/2">
             <div>ایمیل:</div>
             <InputField v-model="info.email" />
           </div>
@@ -47,11 +64,12 @@
           </div>
           <div class="w-full">
             <div>لینک عکس:</div>
-            <InputField />
+            <InputField v-model="info.imageURL" />
           </div>
           <div class="flex justify-between w-full">
             <button
               class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded mb-2 mr-auto disabled:bg-indigo-300 disabled:cursor-not-allowed"
+              :disabled="!isAllDateEntered"
               @click="registerStudent"
             >
               ثبت نام
@@ -119,9 +137,17 @@ const currentPage = ref(1);
 
 const fetchUrl = computed(
   () =>
-    `https://music-school-mckx.onrender.com/teachers?page=${currentPage.value}`
+    `https://music-school-mckx.onrender.com/teachers`
 );
 const { data: teachers, refresh, pending: pending2 } = useFetch(fetchUrl);
+
+const { data: courses } = await useFetch(
+  "https://music-school-mckx.onrender.com/categories"
+);
+
+const availableCourses = computed(() =>
+  courses.value.filter((course) => course.parentCategory)
+);
 
 const paginateStudents = (pageNumber) => {
   currentPage.value = pageNumber;
@@ -134,24 +160,33 @@ const NECESSARY_FIELDS = [
   "surname",
   "birthdate",
   "birthplace",
-  "branchNumber",
+  "branch",
+  "numberOfActiveYears",
+  "numberOfTeachingYears",
   "email",
+  "major",
 ];
 const isAllDateEntered = computed(() =>
   NECESSARY_FIELDS.every((field) => info.value[field])
 );
+const isRegistering = ref(false)
 const registerStudent = async () => {
+  if (isRegistering.value) {
+    return
+  }
+  isRegistering.value = true
   const { data } = await useFetch(
     "https://music-school-mckx.onrender.com/teachers",
     {
       method: "POST",
-      body: info,
+      body: info.value,
     }
   );
   refresh();
   isAddStudentOpen.value = false;
   // toast.add({ title: "هنرآموز ثبت نام شد" });
   info.value = {};
+  isRegistering.value = false
 };
 
 const deleteStudent = async (student) => {
@@ -164,7 +199,10 @@ const deleteStudent = async (student) => {
   refresh();
   // toast.add({ title: "هنرآموز ثبت نام شد" });
 };
-
+const setTopic = (topic) => {
+  console.log(topic._id);
+  info.value.major = topic._id;
+};
 const setBranch = (branch) => {
   info.value.branch = branch._id;
 };

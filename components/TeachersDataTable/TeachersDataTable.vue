@@ -83,7 +83,7 @@
                 <td
                   class="px-4 py-4 text-center text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"
                 >
-                  {{ teacher.major }}
+                  {{ teacher.major.name }}
                 </td>
                 <td class="px-4">
                   <button

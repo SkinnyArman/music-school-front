@@ -79,7 +79,7 @@ const { data: branches } = useFetch("https://music-school-mckx.onrender.com/bran
 const { data: teachers } = useFetch(
   "https://music-school-mckx.onrender.com/teachers"
 );
-const { data: courses } = useFetch(
+const { data: courses } = await useFetch(
   "https://music-school-mckx.onrender.com/categories"
 );
 
