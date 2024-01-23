@@ -47,6 +47,7 @@
                   <div class="flex items-center gap-x-2">
                     <img
                       class="object-cover w-8 h-8 rounded-full"
+                      v-if="student.imageURL"
                       :src="student.imageURL"
                       alt=""
                     />

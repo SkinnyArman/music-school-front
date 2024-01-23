@@ -45,6 +45,7 @@
                 >
                   <div class="flex items-center gap-x-2">
                     <img
+                      v-if="course.teacher.imageURL"
                       class="object-cover w-8 h-8 rounded-full"
                       :src="course.teacher.imageURL"
                       alt=""
@@ -73,7 +74,6 @@
                 >
                   {{ course.students.length }}
                 </td>
-
 
                 <td class="px-4">
                   <button

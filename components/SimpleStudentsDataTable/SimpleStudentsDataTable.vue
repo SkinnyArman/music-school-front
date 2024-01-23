@@ -44,6 +44,7 @@
                 >
                   <div class="flex items-center gap-x-2">
                     <img
+                      v-if="student.imageURL"
                       class="object-cover w-8 h-8 rounded-full"
                       :src="student.imageURL"
                       alt=""
@@ -75,7 +76,6 @@
       </div>
     </div>
   </div>
-
 </template>
 
 <script setup>
